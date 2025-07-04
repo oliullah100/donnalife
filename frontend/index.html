@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="start">Start Recording</button>
+    <button id="stop">Stop Recording</button>
+    
+    <script>
+            const startBtn = document.getElementById("start");
+            const stopBtn = document.getElementById("stop");
+
+            let mediaRecorder;
+            let audioChunks = [];
+
+            startBtn.onclick = async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.start();
+
+            mediaRecorder.addEventListener("dataavailable", event => {
+                audioChunks.push(event.data);
+            });
+
+            mediaRecorder.addEventListener("stop", () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const formData = new FormData();
+                console.log(formData)
+                formData.append("audio", audioBlob, "recording.wav");
+
+                fetch("http://localhost:5000/api/voice-to-text", {
+                method: "POST",
+                body: formData,
+                })
+                .then(res => res.json())
+                .then(data => console.log(data))
+                .catch(err => console.error(err));
+            });
+            };
+
+            stopBtn.onclick = () => {
+            mediaRecorder.stop();
+            };
+    </script>
+</body>
+</html>
