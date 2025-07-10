@@ -27,10 +27,6 @@ const createUser = async (payload: any) => {
   return result;
 };
 
-
-
-
-
 const verifyGoogleLogin = async (idToken: string) => {
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
   const ACCESS_SECRET = process.env.ACCESS_SECRET!;

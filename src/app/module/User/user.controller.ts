@@ -34,7 +34,6 @@ const googleLogin = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
-
 // const getAllUserFromDB = catchAsync(async (req: Request, res: Response) => {
 //   const filters = pick(req.query, userFilterableField);
 //   const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
@@ -117,7 +116,6 @@ const googleLogin = catchAsync(async (req: Request, res: Response) => {
 //     data: result,
 //   });
 // });
-
 
 export const UserControllers = {
   createUserIntoDB,
